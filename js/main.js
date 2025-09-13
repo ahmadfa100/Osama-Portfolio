@@ -27,6 +27,13 @@ const translations = {
     "exp.item3.duration": "الحالية",
     "exp.item3.desc": "أقدم خدمات علاجية متخصصة داخل النظام الصحي العام مع الالتزام بأعلى المعايير الوطنية.",
     "gallery.title": "إحداث فرق",
+    "gallery.more": "المزيد",
+    "gallery.preview1": "«بفضل أسامة، حقق ابننا تقدمًا ملحوظًا...»",
+    "gallery.preview2": "«منهج أسامة في تكامل الحواس غيّر...»",
+    "gallery.preview3": "«محترف، عطوف، وفعال للغاية...»",
+    "gallery.preview4": "«التقدم الذي أحرزه ابننا تحت رعاية أسامة...»",
+    "gallery.preview5": "«خبرة أسامة في التدخل المبكر غيّرت...»",
+    "gallery.preview6": "«حنون، ماهر، ومتفاني...»",
     "testi.1": "«بفضل أسامة، حقق ابننا تقدمًا ملحوظًا في المهارات الدقيقة. إنه صبور ومدهش مع الأطفال!»",
     "testi.client1": "- والد/ة A.S.",
     "testi.2": "«منهج أسامة في تكامل الحواس غيّر حياة ابنتنا اليومية. نحن ممتنون للغاية!»",
@@ -273,8 +280,37 @@ function initContactForm() {
 // Gallery Animations
 function initGalleryAnimations() {
   document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('mouseenter', function() { this.style.transform = 'translateY(-10px) scale(1.02)'; });
-    item.addEventListener('mouseleave', function() { this.style.transform = 'translateY(0) scale(1)'; });
+    item.addEventListener('mouseenter', function() { 
+      this.style.transform = 'translateY(-10px) scale(1.02)'; 
+    });
+    item.addEventListener('mouseleave', function() { 
+      this.style.transform = 'translateY(0) scale(1)'; 
+    });
+    
+    // Add click/tap functionality for better UX
+    item.addEventListener('click', function() {
+      const feedbackCard = this.querySelector('.feedback-card');
+      if (feedbackCard) {
+        const isVisible = feedbackCard.style.transform === 'translateY(0px)' || 
+                         feedbackCard.classList.contains('visible');
+        
+        if (isVisible) {
+          feedbackCard.style.transform = 'translateY(100%)';
+          feedbackCard.classList.remove('visible');
+          this.classList.remove('active');
+        } else {
+          feedbackCard.style.transform = 'translateY(0)';
+          feedbackCard.classList.add('visible');
+          this.classList.add('active');
+        }
+      }
+    });
+    
+    // Add touch support for mobile
+    item.addEventListener('touchstart', function(e) {
+      e.preventDefault();
+      this.click();
+    });
   });
 }
 
@@ -384,5 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, index * 200);
     });
   });
+  
+  // No longer needed - removed hint functionality
 });
 
